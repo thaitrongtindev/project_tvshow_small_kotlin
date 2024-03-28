@@ -7,14 +7,17 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.tvshowsmallkotlin.databinding.ActivityMainBinding
 import com.example.tvshowsmallkotlin.viewmodels.MostPoplularTVShowsViewmodel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding : ActivityMainBinding
 
     private lateinit var viewmodel: MostPoplularTVShowsViewmodel
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,10 +26,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
+        doInitialization()
+
+    }
+
+    private fun doInitialization() {
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         viewmodel = ViewModelProvider(this).get(MostPoplularTVShowsViewmodel::class.java)
 
-        getMostPopularTVShows()
-    }
+        getMostPopularTVShows()    }
 
     private  fun getMostPopularTVShows() {
         Toast.makeText(this, "get", Toast.LENGTH_SHORT).show()

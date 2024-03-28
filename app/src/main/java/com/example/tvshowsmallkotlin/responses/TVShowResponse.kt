@@ -11,6 +11,6 @@ data class TVShowResponse(
     private var totalPages: Int? = null,
 
     @SerializedName("tv_shows")
-    private val tvShows: List<TvShow>? = null
+     val tvShows: List<TvShow>? = null
 
 )

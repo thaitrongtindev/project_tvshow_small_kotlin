@@ -10,7 +10,10 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.tvshowsmallkotlin.adapter.TvShowsAdapter
 import com.example.tvshowsmallkotlin.databinding.ActivityMainBinding
+import com.example.tvshowsmallkotlin.models.TvShow
 import com.example.tvshowsmallkotlin.viewmodels.MostPoplularTVShowsViewmodel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -20,28 +23,37 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
 
     private lateinit var viewmodel: MostPoplularTVShowsViewmodel
+    private lateinit var adapterTvShow: TvShowsAdapter
+    private var tvShows = ArrayList<TvShow>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
 
         doInitialization()
+        Log.e("TAG", "onCreate: ", )
 
     }
 
     private fun doInitialization() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         viewmodel = ViewModelProvider(this).get(MostPoplularTVShowsViewmodel::class.java)
 
+        adapterTvShow = TvShowsAdapter(tvShows)
+        binding.tvShowRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = adapterTvShow
+        }
         getMostPopularTVShows()    }
 
     private  fun getMostPopularTVShows() {
         Toast.makeText(this, "get", Toast.LENGTH_SHORT).show()
-        viewmodel.getMostPopularTVShows(0).observe(this, Observer {
-            if (it != null) {
-                Log.e("IT", "getMostPopularTVShows: " + it.toString() )
+        Log.e("TAG", "getMostPopularTVShows: ", )
+        viewmodel.getMostPopularTVShows(0).observe(this, Observer { mostPopularTvShows ->
+            mostPopularTvShows?.let {
+                tvShows.addAll(it.tvShows!!)
+                adapterTvShow.notifyDataSetChanged()
             }
         })
     }
+
 }

@@ -9,9 +9,10 @@ object BindingAdapter {
     @JvmStatic
     fun setImageUrl(imageView: ImageView, url: String?) {
         try {
-            imageView.alpha = 0f
+            // Load hình ảnh từ URL sử dụng Glide
             Glide.with(imageView.context).load(url).into(imageView)
         } catch (e: Exception) {
+            // Xử lý ngoại lệ nếu có
             e.printStackTrace()
         }
     }

@@ -1,3 +1,14 @@
 <resources>
-    <string name="app_name">TVShowSmallKotlin</string>
+    <string name="app_name">TVShowSmall</string>
+    <string name="this_iss_text_status">This iss text status</string>
+    <string name="this_is_a_text_started">This is a text started</string>
+    <string name="this_iss_a_text_network">This iss a text network</string>
+    <string name="this_is_a_textname">This is a textName</string>
+    <string name="read_more">Read More</string>
+    <string name="website">Website</string>
+    <string name="episodes">Episodes</string>
+    <string name="watchlist">Watchlist</string>
+    <string name="read_less">Read Less</string>
+    <string name="search_tv_show">Search TV Show</string>
+    <string name="tv_shows_most_popular">TV Shows | Most Popular</string>
 </resources>

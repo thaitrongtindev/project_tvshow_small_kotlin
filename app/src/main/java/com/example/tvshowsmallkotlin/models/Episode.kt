@@ -5,15 +5,15 @@ import com.google.gson.annotations.SerializedName
 data class Episode(
 
     @SerializedName("season")
-    private val season: String? = null,
+     val season: String? = null,
 
     @SerializedName("episode")
-    private var episode: String? = null,
+     var episode: String? = null,
 
     @SerializedName("name")
-    private var name: String? = null,
+     var name: String? = null,
 
     @SerializedName("air_date")
-    private val airDate: String? = null
+     val airDate: String? = null
 
 )

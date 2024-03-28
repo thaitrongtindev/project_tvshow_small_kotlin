@@ -21,6 +21,7 @@ import com.example.tvshowsmallkotlin.models.TvShow
 import com.example.tvshowsmallkotlin.repositories.TvShowDetailsRepository
 import com.example.tvshowsmallkotlin.viewmodels.TvShowDetailsFactory
 import com.example.tvshowsmallkotlin.viewmodels.TvShowDetailsViewmodel
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -34,6 +35,8 @@ class TvShowDetailsActivity : AppCompatActivity() {
     private lateinit var repository: TvShowDetailsRepository
     private val handler = Handler(Looper.getMainLooper())
     private val runnable: Runnable? = null
+
+    private lateinit var bottonSheetDialog: BottomSheetDialog
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -114,7 +117,7 @@ class TvShowDetailsActivity : AppCompatActivity() {
                     //
                     loadBasicTvShowDetails()
 
-
+                    // clic
 
                 }
             })

@@ -1,19 +1,14 @@
-package com.example.tvshowsmallkotlin.network
-
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class ApiClient {
-    // https://www.episodate.com/api
-    // https://www.episodate.com/api/most-popular?page=1
+    private val BASE_URL = "https://www.episodate.com/api/"
+    private var retrofit: Retrofit? = null
 
-    val URL =  "https://www.episodate.com/api"
-
-    var retrofit: Retrofit? = null
-    fun getRetrofit(): Retrofit {
+    fun getRetrofitInstance(): Retrofit {
         if (retrofit == null) {
             retrofit = Retrofit.Builder()
-                .baseUrl(URL)
+                .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
         }

@@ -1,8 +1,8 @@
 package com.example.tvshowsmallkotlin.viewmodels
 
+import MostPopularTVShowRepository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.tvshowsmallkotlin.repositories.MostPopularTVShowRepository
 import com.example.tvshowsmallkotlin.responses.TVShowResponse
 
 class MostPoplularTVShowsViewmodel : ViewModel() {
@@ -11,7 +11,7 @@ class MostPoplularTVShowsViewmodel : ViewModel() {
         repository = MostPopularTVShowRepository()
     }
 
-    suspend fun getMostPopularTVShows(page: Int) : LiveData<TVShowResponse> {
-        return repository.getMostPopularTVShows(page)
+     fun getMostPopularTVShows(page: Int) : LiveData<TVShowResponse> {
+            return repository.getMostPopularTVShows(page)
     }
 }

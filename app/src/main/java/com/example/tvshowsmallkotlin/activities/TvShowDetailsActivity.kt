@@ -7,16 +7,21 @@ import android.os.Handler
 import android.os.Looper
 import android.text.TextUtils
 import android.util.Log
+import android.view.LayoutInflater
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.example.tvshowsmallkotlin.R
+import com.example.tvshowsmallkotlin.adapter.EpisodesAdapter
 import com.example.tvshowsmallkotlin.adapter.ImageSliderAdapter
 import com.example.tvshowsmallkotlin.databinding.ActivityTvShowDetailsBinding
+import com.example.tvshowsmallkotlin.databinding.LayoutEpisodesBottomSheetBinding
 import com.example.tvshowsmallkotlin.models.TvShow
 import com.example.tvshowsmallkotlin.repositories.TvShowDetailsRepository
 import com.example.tvshowsmallkotlin.viewmodels.TvShowDetailsFactory
@@ -37,7 +42,7 @@ class TvShowDetailsActivity : AppCompatActivity() {
     private val runnable: Runnable? = null
 
     private lateinit var bottonSheetDialog: BottomSheetDialog
-
+    private lateinit var bottomSheetBinding: LayoutEpisodesBottomSheetBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -117,7 +122,45 @@ class TvShowDetailsActivity : AppCompatActivity() {
                     //
                     loadBasicTvShowDetails()
 
-                    // clic
+                    // click btn episode
+                    binding.btnEpisodes.setOnClickListener {
+                        // Kiểm tra xem tvShowDetailsResponse đã khác null chưa
+                        if (tvShowDetailsResponse != null && tvShowDetailsResponse.tvShowDetails != null) {
+                            // Khởi tạo adapter
+                            val episodesAdapter = EpisodesAdapter(tvShowDetailsResponse.tvShowDetails.episodes ?: emptyList())
+
+                            // Khởi tạo bottom sheet dialog và bottom sheet binding
+                            bottonSheetDialog = BottomSheetDialog(this@TvShowDetailsActivity)
+                            bottomSheetBinding = DataBindingUtil.inflate(
+                                LayoutInflater.from(this@TvShowDetailsActivity),
+                                R.layout.layout_episodes_bottom_sheet,
+                                findViewById(R.id.episodesContainer),
+                                false
+                            )
+
+                            // Thiết lập RecyclerView trong bottom sheet binding
+                            bottomSheetBinding.episodesRecyclerView.apply {
+                                layoutManager = LinearLayoutManager(this@TvShowDetailsActivity)
+                                adapter = episodesAdapter
+                            }
+
+                            // Thiết lập tiêu đề cho bottom sheet
+                            bottomSheetBinding.textTittle.text = String.format("Episodes | %s", tvShow.name)
+
+                            // Hiển thị bottom sheet dialog
+                            bottonSheetDialog.show()
+
+                            // Xử lý sự kiện khi đóng bottom sheet
+                            bottomSheetBinding.imageClose.setOnClickListener {
+                                bottonSheetDialog.dismiss()
+                            }
+                        } else {
+                            // Nếu tvShowDetailsResponse chưa khởi tạo hoặc chưa nhận dữ liệu, bạn có thể hiển thị một thông báo hoặc log để thông báo cho người dùng
+                            Log.e("TvShowDetailsActivity", "tvShowDetailsResponse is null or tvShowDetails is null")
+                            Toast.makeText(applicationContext, "No data available", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
 
                 }
             })

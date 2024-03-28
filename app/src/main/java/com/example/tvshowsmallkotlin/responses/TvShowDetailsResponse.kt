@@ -7,7 +7,7 @@ data class TvShowDetailsResponse(
 
 
    @SerializedName("tvShow")
-    private val tvShowDetails: TVShowDetails
+     val tvShowDetails: TVShowDetails
 
 
 )

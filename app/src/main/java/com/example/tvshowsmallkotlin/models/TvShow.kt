@@ -6,7 +6,7 @@ import java.io.Serializable
 
 data class TvShow(
     @SerializedName("id")
-    private var id: Int? = null,
+     var id: Int? = null,
 
     @com.google.gson.annotations.SerializedName("name")
      val name: String? = null,

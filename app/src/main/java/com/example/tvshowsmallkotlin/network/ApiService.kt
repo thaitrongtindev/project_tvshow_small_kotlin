@@ -1,6 +1,7 @@
 package com.example.tvshowsmallkotlin.network
 
 import com.example.tvshowsmallkotlin.responses.TVShowResponse
+import com.example.tvshowsmallkotlin.responses.TvShowDetailsResponse
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
@@ -14,4 +15,7 @@ interface ApiService {
 
     @GET("most-popular")
     fun getMostPopularTVShows(@Query("page") page: Int) : Call<TVShowResponse>
+    //    //https://www.episodate.com/api/show-details?q=arrow
+    @GET("show-details")
+    fun getTvShowDetails(@Query("q") tvShowId: String) : Call<TvShowDetailsResponse>
 }

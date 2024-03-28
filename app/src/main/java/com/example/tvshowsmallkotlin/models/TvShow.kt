@@ -1,6 +1,8 @@
 package com.example.tvshowsmallkotlin.models
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
+
 
 data class TvShow(
     @SerializedName("id")
@@ -23,4 +25,4 @@ data class TvShow(
 
     @SerializedName("image_thumbnail_path")
      val thumbnail: String? = null
-)
+) :Serializable

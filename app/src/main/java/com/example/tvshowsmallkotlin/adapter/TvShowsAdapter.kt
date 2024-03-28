@@ -6,9 +6,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tvshowsmallkotlin.R
 import com.example.tvshowsmallkotlin.databinding.ItemContainerTvShowBinding
+import com.example.tvshowsmallkotlin.listeners.TvShowListener
 import com.example.tvshowsmallkotlin.models.TvShow
 
-class TvShowsAdapter(private var tvShows: List<TvShow>) :
+class TvShowsAdapter(private var tvShows: List<TvShow>, val tvShowListener : TvShowListener) :
     RecyclerView.Adapter<TvShowsAdapter.TvShowsViewHolder>() {
 
 
@@ -28,9 +29,14 @@ class TvShowsAdapter(private var tvShows: List<TvShow>) :
 
     inner class TvShowsViewHolder(val binding: ItemContainerTvShowBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(get: TvShow) {
-            binding.tvShow = get
+        fun bind(tvShow: TvShow) {
+            binding.tvShow = tvShow
             binding.executePendingBindings()
+
+           binding.root.setOnClickListener {
+               tvShowListener.onClickTvShow(tvShow)
+
+           }
 
         }
     }

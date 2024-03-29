@@ -11,21 +11,21 @@ data class TvShow(
     @SerializedName("id")
      var id: Int? = null,
 
-    @com.google.gson.annotations.SerializedName("name")
-     val name: String? = null,
+    @SerializedName("name")
+     var name: String? = null,
 
     @SerializedName("start_date")
-     val startDate: String? = null,
+    var startDate: String? = null,
 
     @SerializedName("country")
-     val country: String? = null,
+    var country: String? = null,
 
     @SerializedName("network")
-     val network: String? = null,
+    var network: String? = null,
 
     @SerializedName("status")
-     val status: String? = null,
+    var status: String? = null,
 
     @SerializedName("image_thumbnail_path")
-     val thumbnail: String? = null
+    var thumbnail: String? = null
 ) :Serializable

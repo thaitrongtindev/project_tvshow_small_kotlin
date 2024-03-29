@@ -63,14 +63,10 @@ dependencies {
     // lifecycle extensionn
     implementation ("androidx.lifecycle:lifecycle-extensions:2.2.0")
 
-    // room
-    val room_version = "2.5.0"
-
-    implementation("androidx.room:room-runtime:$room_version")
-    annotationProcessor("androidx.room:room-compiler:$room_version")
-
-    // To use Kotlin annotation processing tool (kapt)
-    kapt("androidx.room:room-compiler:$room_version")
+    implementation ("androidx.room:room-runtime:2.6.1")
+    implementation ("androidx.room:room-ktx:2.6.1")
+    kapt ("androidx.room:room-compiler:2.6.1")
+    implementation ("androidx.room:room-testing:2.6.1")
 
     // rxjava
 

@@ -5,12 +5,12 @@ import com.google.gson.annotations.SerializedName
 
 data class TVShowResponse(
     @SerializedName("page")
-    private var page: Int? = null,
+     var page: Int? = null,
 
-    @com.google.gson.annotations.SerializedName("pages")
-    private var totalPages: Int? = null,
+    @SerializedName("pages")
+     var totalPages: Int? = null,
 
     @SerializedName("tv_shows")
-     val tvShows: List<TvShow>? = null
+     var tvShows: List<TvShow>? = null
 
 )

@@ -10,8 +10,8 @@ import com.example.tvshowsmallkotlin.models.TvShow
 @Dao
 interface TvShowDao {
 
-    @Query("SELECT * FROM TVSHOWS")
-    suspend fun getWatchlist()
+    @Query("SELECT * FROM tvShows")
+    fun getWatchlist():List<TvShow>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addToWatchlist(tvShow: TvShow)

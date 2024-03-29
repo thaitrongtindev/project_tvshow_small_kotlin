@@ -20,6 +20,7 @@ import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.example.tvshowsmallkotlin.R
 import com.example.tvshowsmallkotlin.adapter.EpisodesAdapter
 import com.example.tvshowsmallkotlin.adapter.ImageSliderAdapter
+import com.example.tvshowsmallkotlin.dao.TvShowDatabase
 import com.example.tvshowsmallkotlin.databinding.ActivityTvShowDetailsBinding
 import com.example.tvshowsmallkotlin.databinding.LayoutEpisodesBottomSheetBinding
 import com.example.tvshowsmallkotlin.models.TvShow
@@ -43,6 +44,7 @@ class TvShowDetailsActivity : AppCompatActivity() {
 
     private lateinit var bottonSheetDialog: BottomSheetDialog
     private lateinit var bottomSheetBinding: LayoutEpisodesBottomSheetBinding
+    private lateinit var db: TvShowDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,9 +59,10 @@ class TvShowDetailsActivity : AppCompatActivity() {
 
         // get data from main activity
          tvShow = (intent.getSerializableExtra("tv_show") as? TvShow)!!
-
+        db = TvShowDatabase.getInstance(this)
         repository = TvShowDetailsRepository()
-        viewmodelFactory = TvShowDetailsFactory(repository)
+
+        viewmodelFactory = TvShowDetailsFactory(repository,db)
         viewmodel = ViewModelProvider(this, viewmodelFactory).get(TvShowDetailsViewmodel::class.java)
 
         getTvShowDetails(tvShow.id)
@@ -161,6 +164,13 @@ class TvShowDetailsActivity : AppCompatActivity() {
                         }
                     }
 
+
+                    // click add watchlist
+                    binding.imageWatchlist.setOnClickListener {
+                        viewmodel.addWatchlist(tvShow)
+                        binding.imageWatchlist.setImageResource(R.drawable.ic_check)
+                        Toast.makeText(this@TvShowDetailsActivity, "Add watchlist to success", Toast.LENGTH_SHORT).show()
+                    }
 
                 }
             })

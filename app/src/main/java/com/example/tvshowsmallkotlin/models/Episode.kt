@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class Episode(
 
     @SerializedName("season")
-     val season: String? = null,
+    var season: String? = null,
 
     @SerializedName("episode")
      var episode: String? = null,
@@ -14,6 +14,6 @@ data class Episode(
      var name: String? = null,
 
     @SerializedName("air_date")
-     val airDate: String? = null
+    var airDate: String? = null
 
 )

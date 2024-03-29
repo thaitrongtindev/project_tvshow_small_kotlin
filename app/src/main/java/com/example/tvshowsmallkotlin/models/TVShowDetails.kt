@@ -4,27 +4,27 @@ import com.google.gson.annotations.SerializedName
 
 data class TVShowDetails(
     @SerializedName("url")
-     var url: String? = null,
+    var url: String? = null,
 
     @SerializedName("description")
-     val description: String? = null,
+    var description: String? = null,
 
     @SerializedName("runtime")
-     val runtime: String? = null,
+    var runtime: String? = null,
 
     @SerializedName("image_path")
-     val imagePath: String? = null,
+    var imagePath: String? = null,
 
     @SerializedName("rating")
-     val rating: String? = null,
+    var rating: String? = null,
 
     @SerializedName("genres")
-     val genres: Array<String>,
+    var genres: Array<String>,
 
     @SerializedName("pictures")
-     val pictures: Array<String>,
+    var pictures: Array<String>,
 
     @SerializedName("episodes")
-     val episodes: List<Episode>? = null
+    var episodes: List<Episode>? = null
 
 )

@@ -31,6 +31,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Locale
 
 class TvShowDetailsActivity : AppCompatActivity() {
@@ -45,6 +46,7 @@ class TvShowDetailsActivity : AppCompatActivity() {
     private lateinit var bottonSheetDialog: BottomSheetDialog
     private lateinit var bottomSheetBinding: LayoutEpisodesBottomSheetBinding
     private lateinit var db: TvShowDatabase
+    private var isWatchlist: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -168,12 +170,31 @@ class TvShowDetailsActivity : AppCompatActivity() {
 
                     // click add watchlist
                     binding.imageWatchlist.setOnClickListener {
-                        viewmodel.addWatchlist(tvShow)
-                        binding.imageWatchlist.setImageResource(R.drawable.ic_check)
-                        Toast.makeText(this@TvShowDetailsActivity, "Add watchlist to success", Toast.LENGTH_SHORT).show()
+                        if (isWatchlist) {
+                            CoroutineScope(Dispatchers.IO).launch {
+                                viewmodel.removeTvShowFromWatchlist(tvShow)
+                                withContext(Dispatchers.Main) {
+                                    isWatchlist = false
+                                    binding.imageWatchlist.setImageResource(R.drawable.ic_eye)
+                                    Toast.makeText(this@TvShowDetailsActivity, "Remove watchlist to success", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        } else {
+                            CoroutineScope(Dispatchers.IO).launch {
+                                viewmodel.addWatchlist(tvShow)
+                                withContext(Dispatchers.Main) {
+                                    isWatchlist = true
+                                    binding.imageWatchlist.setImageResource(R.drawable.ic_check)
+                                    Toast.makeText(this@TvShowDetailsActivity, "Add watchlist to success", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        }
                     }
 
+
                 }
+
+
             })
         }
     }

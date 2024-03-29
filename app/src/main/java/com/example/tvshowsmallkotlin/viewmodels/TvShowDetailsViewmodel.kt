@@ -25,5 +25,13 @@ class TvShowDetailsViewmodel(private val repository: TvShowDetailsRepository, pr
         }
     }
 
+    fun removeTvShowFromWatchlist(tvShow: TvShow) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                tvShowDatabase.tvShowDao().removeFromWatchlist(tvShow)
+            }
+        }
+    }
+
 
 }

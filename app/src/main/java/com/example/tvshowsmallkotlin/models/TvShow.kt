@@ -1,10 +1,13 @@
 package com.example.tvshowsmallkotlin.models
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-
+@Entity(tableName = "tvShows")
 data class TvShow(
+    @PrimaryKey
     @SerializedName("id")
      var id: Int? = null,
 

@@ -55,7 +55,11 @@ class MainActivity : AppCompatActivity(), TvShowListener {
                 }
             })
         }
-        getMostPopularTVShows()    }
+        getMostPopularTVShows()
+
+    binding.imageViewWatchlist.setOnClickListener {
+        startActivity(Intent(this, WatchlistActivity::class.java))
+    }}
 
     private  fun getMostPopularTVShows() {
         toggleLoading()

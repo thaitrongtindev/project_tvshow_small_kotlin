@@ -71,6 +71,7 @@ class TvShowDetailsActivity : AppCompatActivity() {
             finish()
         }
 
+
     }
 
     private fun getTvShowDetails(id: Int?) {

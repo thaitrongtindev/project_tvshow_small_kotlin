@@ -7,8 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.tvshowsmallkotlin.databinding.ItemContainerTvShowBinding
 import com.example.tvshowsmallkotlin.listeners.WatchlistListener
 import com.example.tvshowsmallkotlin.models.TvShow
+import kotlinx.coroutines.CoroutineScope
 
-class WatchlistAdapter(tvShows: List<TvShow>, val watchlistListener: WatchlistListener) : RecyclerView.Adapter<WatchlistAdapter.WatchlistViewHolder>() {
+class WatchlistAdapter(val tvShows: List<TvShow>, val watchlistListener: WatchlistListener) : RecyclerView.Adapter<WatchlistAdapter.WatchlistViewHolder>() {
     inner class WatchlistViewHolder(val binding: ItemContainerTvShowBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(tvShow: TvShow) {
             binding.tvShow = tvShow

@@ -15,7 +15,7 @@ class WatchlistViewmodel(application: Application) : AndroidViewModel(applicatio
     init {
          tvShowDatabase = TvShowDatabase.getInstance(application)
     }
-    fun loadWatchlist() : List<TvShow> {
+    fun loadWatchlist() : MutableList<TvShow> {
         return tvShowDatabase!!.tvShowDao().getWatchlist()
     }
 

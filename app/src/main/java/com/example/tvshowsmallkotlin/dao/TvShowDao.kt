@@ -1,5 +1,6 @@
 package com.example.tvshowsmallkotlin.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -18,4 +19,7 @@ interface TvShowDao {
 
     @Delete
     suspend fun removeFromWatchlist(tvShow: TvShow)
+
+    @Query("SELECT * FROM tvShows WHERE id = :tvShowId")
+    fun getTvShowFromWatchlist(tvShowId: String):LiveData<TvShow>
 }

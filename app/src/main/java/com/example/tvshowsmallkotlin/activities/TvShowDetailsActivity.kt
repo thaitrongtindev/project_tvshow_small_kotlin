@@ -66,6 +66,7 @@ class TvShowDetailsActivity : AppCompatActivity() {
 
         viewmodelFactory = TvShowDetailsFactory(repository,db)
         viewmodel = ViewModelProvider(this, viewmodelFactory).get(TvShowDetailsViewmodel::class.java)
+        checkTVShowInWatchlist()
 
         getTvShowDetails(tvShow.id)
         binding.imageBack.setOnClickListener {
@@ -73,8 +74,20 @@ class TvShowDetailsActivity : AppCompatActivity() {
             finish()
         }
 
-
     }
+
+    fun checkTVShowInWatchlist() {
+        val tvShowId = tvShow.id.toString()
+        val tvShowLiveData = viewmodel.getTvShowFromWatchlist(tvShowId)
+        tvShowLiveData.observe(this, Observer { tvShow ->
+            if (tvShow != null) {
+                // Nếu tvShow không null, tức là nó đã được thêm vào watchlist
+                isWatchlist = true
+                binding.imageWatchlist.setImageResource(R.drawable.ic_check)
+            }
+        })
+    }
+
 
     private fun getTvShowDetails(id: Int?) {
         val tvShowId = id.toString()

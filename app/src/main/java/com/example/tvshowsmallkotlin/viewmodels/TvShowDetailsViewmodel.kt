@@ -32,6 +32,9 @@ class TvShowDetailsViewmodel(private val repository: TvShowDetailsRepository, pr
             }
         }
     }
+    fun getTvShowFromWatchlist(tvShowId : String) : LiveData<TvShow> {
+        return tvShowDatabase.tvShowDao().getTvShowFromWatchlist(tvShowId)
+    }
 
 
 }

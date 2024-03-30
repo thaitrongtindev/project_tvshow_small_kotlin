@@ -11,7 +11,7 @@ import retrofit2.Response
 class MostPopularTVShowRepository {
     private val apiService : ApiService = ApiClient().getRetrofitInstance().create(ApiService::class.java)
 
-    fun getMostPopularTVShows(page: Int): LiveData<TVShowResponse> {
+    suspend fun getMostPopularTVShows(page: Int): LiveData<TVShowResponse> {
         val data = MutableLiveData<TVShowResponse>()
         try {
             apiService.getMostPopularTVShows(page).enqueue(object : Callback<TVShowResponse> {

@@ -3,6 +3,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.tvshowsmallkotlin.network.ApiService
 import com.example.tvshowsmallkotlin.responses.TVShowResponse
+import com.example.tvshowsmallkotlin.responses.TvShowDetailsResponse
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.Callback
 import retrofit2.Call
 
@@ -12,27 +15,21 @@ class MostPopularTVShowRepository {
     private val apiService : ApiService = ApiClient().getRetrofitInstance().create(ApiService::class.java)
 
     suspend fun getMostPopularTVShows(page: Int): LiveData<TVShowResponse> {
-        val data = MutableLiveData<TVShowResponse>()
-        try {
-            apiService.getMostPopularTVShows(page).enqueue(object : Callback<TVShowResponse> {
-                override fun onResponse(call: Call<TVShowResponse>, response: Response<TVShowResponse>) {
-                    if (response.isSuccessful) {
-                        data.value = response.body()
-                    } else {
-                        // Handle unsuccessful response
-                        Log.e("TAG", "getMostPopularTVShows: Unsuccessful response")
-                    }
+        return withContext(Dispatchers.IO) {
+            val data = MutableLiveData<TVShowResponse>()
+            try {
+                val response = apiService.getMostPopularTVShows(page)
+                if (response.isSuccessful) {
+                    data.postValue(response.body())
+                } else {
+                    // Handle unsuccessful response
+                    Log.e("TvShowDetailsRepository", "getTvShowDetails: Unsuccessful response")
                 }
-
-                override fun onFailure(call: Call<TVShowResponse>, t: Throwable) {
-                    // Handle failure
-                    Log.e("TAG", "getMostPopularTVShows: Failure - ${t.message}")
-                }
-            })
-        } catch (e: Exception) {
-            // Handle error
-            Log.e("TAG", "getMostPopularTVShows: Error - ${e.message}")
+            } catch (e: Exception) {
+                // Handle error
+                Log.e("TvShowDetailsRepository", "getTvShowDetails: Error - ${e.message}")
+            }
+            data
         }
-        return data
     }
 }

@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.tvshowsmallkotlin.models.TvShow
 
-@Database(entities = [TvShow::class], version = 1)
+@Database(entities = [TvShow::class], version = 1, exportSchema = true)
 abstract class TvShowDatabase() : RoomDatabase() {
 
     abstract fun tvShowDao() : TvShowDao

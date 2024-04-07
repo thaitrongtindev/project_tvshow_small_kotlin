@@ -15,9 +15,13 @@ import com.example.tvshowsmallkotlin.databinding.ActivityMainBinding
 import com.example.tvshowsmallkotlin.listeners.TvShowListener
 import com.example.tvshowsmallkotlin.models.TvShow
 import com.example.tvshowsmallkotlin.viewmodels.MostPoplularTVShowsViewmodel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity(), TvShowListener {
-    private lateinit var binding : ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
 
     private lateinit var viewmodel: MostPoplularTVShowsViewmodel
     private lateinit var adapterTvShow: TvShowsAdapter
@@ -41,7 +45,7 @@ class MainActivity : AppCompatActivity(), TvShowListener {
         binding.tvShowRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = adapterTvShow
-            addOnScrollListener(object: RecyclerView.OnScrollListener() {
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
                     // check  scrolled to the last
@@ -57,21 +61,38 @@ class MainActivity : AppCompatActivity(), TvShowListener {
         }
         getMostPopularTVShows()
 
-    binding.imageViewWatchlist.setOnClickListener {
-        startActivity(Intent(this, WatchlistActivity::class.java))
-    }}
+        binding.imageViewWatchlist.setOnClickListener {
+            startActivity(Intent(this, WatchlistActivity::class.java))
+        }
 
-    private  fun getMostPopularTVShows() {
-        toggleLoading()
-        viewmodel.getMostPopularTVShows(currentPage).observe(this, Observer { mostPopularTvShows ->
-            mostPopularTvShows?.let {
-                toggleLoading()
-                totalAvailablePage = it.tvShows!!.size
-                tvShows.addAll(it.tvShows!!)
-                adapterTvShow.notifyDataSetChanged()
-            }
-        })
+        // click search tvshow
+        binding.imageViewSearch.setOnClickListener {
+            startActivity(Intent(this, SearchActivity::class.java))
+        }
     }
+
+
+
+    private fun getMostPopularTVShows() {
+        toggleLoading()
+        CoroutineScope(Dispatchers.IO).launch {
+            val mostPopularTvShows = viewmodel.getMostPopularTVShows(currentPage)
+            withContext(Dispatchers.Main) {
+                mostPopularTvShows.observe(this@MainActivity, Observer { result ->
+                    result?.let {
+                        toggleLoading()
+                        totalAvailablePage = it.tvShows!!.size
+                        tvShows.addAll(it.tvShows!!)
+                        adapterTvShow.notifyDataSetChanged()
+                    }
+                })
+            }
+        }
+    }
+
+
+
+
 
     private fun toggleLoading() {
         // current page = 1

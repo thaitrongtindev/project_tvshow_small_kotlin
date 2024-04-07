@@ -1,10 +1,17 @@
 package com.example.tvshowsmallkotlin.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tvshowsmallkotlin.R
@@ -22,6 +29,7 @@ class WatchlistActivity : AppCompatActivity(), WatchlistListener {
     private lateinit var binding : ActivityWatchlistBinding
     private lateinit var viewmodel: WatchlistViewmodel
     private lateinit var watchlist: MutableList<TvShow>
+    private lateinit var watchlist1: MutableLiveData<TvShow>
     private lateinit var watchlistAdapter: WatchlistAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,36 +45,55 @@ class WatchlistActivity : AppCompatActivity(), WatchlistListener {
         }
 
         watchlist = mutableListOf();
-        loadWatchlist()
+      //  loadWatchlist()
+
+        binding.imageViewSearch.setOnClickListener {
+            onClickSearchTvShow()
+        }
     }
 
-//    private fun loadWatchlist() {
-//
-//        CoroutineScope(Dispatchers.IO).launch {
-//            watchlist = viewmodel.loadWatchlist()
-//
-//             Log.e("watchlist", watchlist.toString() )
-//        }
-//        watchlistAdapter = WatchlistAdapter(watchlist, this)
-//        binding.watchlistRecyclerView.apply {
-//            layoutManager = LinearLayoutManager(context)
-//            adapter = watchlistAdapter
-//        }
-//        watchlistAdapter.notifyDataSetChanged()
-//    }
-private fun loadWatchlist() {
+    private fun onClickSearchTvShow() {
+        binding.editTextSearch.visibility = View.VISIBLE
+        binding.tvWatchlist.visibility = View.GONE
+
+
+        val strQuery = binding.editTextSearch.text.toString().toString()
+        searchTvShowFromWatchlist(strQuery)
+    }
+
+    private fun searchTvShowFromWatchlist(strQuery: String) {
+        viewmodel.searchTvShowByName(strQuery).observe(
+            this, Observer {
+                Log.e("TAG", "searchTvShowFromWatchlist: " +it.size )
+            }
+        )
+    }
+
+
+    private fun loadWatchlist() {
     CoroutineScope(Dispatchers.IO).launch {
         watchlist = viewmodel.loadWatchlist()
+
+        Log.e("watchlist", watchlist.toString() )
         withContext(Dispatchers.Main) {
             watchlistAdapter = WatchlistAdapter(watchlist, this@WatchlistActivity)
             binding.watchlistRecyclerView.apply {
                 layoutManager = LinearLayoutManager(context)
                 adapter = watchlistAdapter
             }
+
+
             watchlistAdapter.notifyDataSetChanged()
         }
     }
 }
+
+    override fun onStart() {
+        super.onStart()
+        loadWatchlist()
+    }
+
+
 
     override fun onTvShowClicked(tvShow: TvShow) {
        val intent = Intent(this, TvShowDetailsActivity::class.java)
@@ -86,5 +113,7 @@ private fun loadWatchlist() {
 
         }
     }
+
+
 
 }

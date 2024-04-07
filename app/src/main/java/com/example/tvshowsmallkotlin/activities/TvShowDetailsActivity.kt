@@ -195,6 +195,7 @@ class TvShowDetailsActivity : AppCompatActivity() {
                         } else {
                             CoroutineScope(Dispatchers.IO).launch {
                                 viewmodel.addWatchlist(tvShow)
+                                Log.e("viewmodel", viewmodel.addWatchlist(tvShow).toString() )
                                 withContext(Dispatchers.Main) {
                                     isWatchlist = true
                                     binding.imageWatchlist.setImageResource(R.drawable.ic_check)

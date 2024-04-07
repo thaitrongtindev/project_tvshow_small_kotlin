@@ -14,7 +14,7 @@ interface ApiService {
     //https://www.episodate.com/api/most-popular?page=1
 
     @GET("most-popular")
-   suspend fun getMostPopularTVShows(@Query("page") page: Int) : Call<TVShowResponse>
+   suspend fun getMostPopularTVShows(@Query("page") page: Int) : Response<TVShowResponse>
     //    //https://www.episodate.com/api/show-details?q=arrow
     @GET("show-details")
     suspend  fun getTvShowDetails(@Query("q") tvShowId: String) : Response<TvShowDetailsResponse>
